@@ -1,12 +1,14 @@
-# ansible-gendoc
+# Ansible-Gendoc
 
-*Inspired by Felix Archambault's* [ansidoc](https://github.com/archf/ansidoc) project
+*Inspired by Felix Archambault's* [ansidoc](https://github.com/archf/ansidoc)
+project.
+
+An [example](example.md) generated with `ansible-gendoc`.
 
 ## Features
 
-* Command line interface with Typer_
 * Generate the documentation for a role located in a directory
-* Use a personal template
+* Can use a personal template `README.j2` present in folder `templates`
 
 ## Quickstart
 
@@ -77,5 +79,7 @@ language.
 
 Modify it, for example replace `html` or `Restructuredtext` or another language.
 You can remove some variables too.
+
+#### Documentation of vars template
 
 The documentation of vars coming soon.
