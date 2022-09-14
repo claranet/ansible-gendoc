@@ -1,0 +1,11 @@
+Dockerfile
+.gitignore
+.python-version
+ansible.cfg
+poetry.lock
+requirements.yml
+.vscode
+collections
+roles
+dist
+tests

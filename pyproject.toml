@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "ansible-gendoc"
+version = "0.1.2"
+description = "Ansible-gendoc build documentation of Ansible Roles."
+authors = ["Stephane ROBERT <stephane.robert@fr.clara.net>"]
+readme = "README.md"
+include = [
+    "LICENSE",
+]
+homepage = "https://www.claranet.fr/"
+repository = "https://github.com/claranet/ansible-gendoc"
+keywords = ["ansible", "role", "documentation"]
+
+[tool.poetry.scripts]
+ansible-gendoc = "ansible_gendoc.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.6.1"}
+Jinja2 = "^3.1.2"
+"ruamel.yaml" = "^0.17.21"
+GitPython = "^3.1.27"
+PyYAML = "^6.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^22.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
