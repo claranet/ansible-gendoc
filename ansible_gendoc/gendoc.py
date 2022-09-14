@@ -132,10 +132,11 @@ class Gendoc:
             role["path"] = self.rolespath
             try:
                 repo = Repo(role["path"])
-                role["repoowner"] = repo.remotes.origin.url.split("/")[-2].split(':')[1]
+                role["repoowner"] = repo.remotes.origin.url.split("/")[-2]
                 role["reponame"] = repo.remotes.origin.url.split("/")[-1].split(".git")[0]
                 role["repourl"] = repo.remotes.origin.url.split(".git")[0]
-            except:
+            except Exception as E:
+                print(E)
                 pass
             self._make_role_doc(role)
 
