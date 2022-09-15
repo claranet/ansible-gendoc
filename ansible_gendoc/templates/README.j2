@@ -49,13 +49,13 @@ ansible-galaxy install {{rolename}}
 If you do not want a global installation, clone it into your `roles_path`.
 
 ```bash
-git clone {{ repourl }}.git  {{ rolename }}
+git clone {{ repourl }}  {{ rolename }}
 ```
 
 But I often add it as a submodule in a given `playbook_dir` repository.
 
 ```bash
-git submodule add {{ repourl }}.git roles/{{rolename}}
+git submodule add {{ repourl }} roles/{{rolename}}
 ```
 
 As the role is not managed by Ansible Galaxy, you do not have to specify the
