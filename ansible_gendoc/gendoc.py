@@ -15,7 +15,7 @@ from git import Repo
 import subprocess
 import os
 import typer
-
+from giturlparse import parse
 
 class Gendoc:
     def __init__(self, **kwargs):
@@ -132,9 +132,11 @@ class Gendoc:
             role["path"] = self.rolespath
             try:
                 repo = Repo(role["path"])
-                role["repoowner"] = repo.remotes.origin.url.split("/")[-2].split(':')[1]
-                role["reponame"] = repo.remotes.origin.url.split("/")[-1].split(".git")[0]
-                role["repourl"] = repo.remotes.origin.url.split(".git")[0].split(':')[1]
+
+                result = parse(repo.remotes.origin.url)
+                role["repoowner"] = result.owner
+                role["reponame"] = result.name
+                role["repourl"] = result.normalized
             except:
                 pass
             self._make_role_doc(role)

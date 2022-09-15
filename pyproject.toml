@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ansible-gendoc"
-version = "0.1.3"
+version = "0.1.4"
 description = "Ansible-gendoc build documentation of Ansible Roles."
 authors = ["Stephane ROBERT <stephane.robert@fr.clara.net>"]
 readme = "README.md"
@@ -21,6 +21,7 @@ Jinja2 = "^3.1.2"
 "ruamel.yaml" = "^0.17.21"
 GitPython = "^3.1.27"
 PyYAML = "^6.0"
+giturlparse = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
