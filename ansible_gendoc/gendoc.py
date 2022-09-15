@@ -88,7 +88,7 @@ class Gendoc:
         # render method accepts the same arguments as the dict constructor
         t = template.render(
             self.opts,
-            rolename=("%s.%s" %(meta_vars['galaxy_info']['namespace'],meta_vars['galaxy_info']['role_name'])),
+            rolename=("%s.%s" % (meta_vars['galaxy_info']['author'],meta_vars['galaxy_info']['role_name'])).lower(),
             repoowner=role["repoowner"],
             repourl=role["repourl"],
             reponame=role["reponame"],
