@@ -6,15 +6,12 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload Python Package
+name: Upload Python Package and Create Tag and Release
 
 on:
   push:
-    tags:
-      - '*.*.*'
-
-permissions:
-  contents: read
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -37,3 +34,16 @@ jobs:
       run: |
         poetry build
         poetry publish --skip-existing
+    - name: Git tag
+      id: tag
+      run: |
+          TAG_HASH=$(git show -s --format='%H')
+          TAG_VERSION=$(poetry version -s)
+          git tag "${TAG_VERSION}" "${TAG_HASH}"
+          git push origin "${TAG_VERSION}"
+          echo "::set-output name=release_tag::${TAG_VERSION}"
+    - name: Create a Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        files: dist/*
