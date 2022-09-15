@@ -2,9 +2,7 @@ name: Tests and Scan
 
 on:
   pull_request: {}
-  push:
-    branches-ignore:
-      - master
+
 jobs:
   tests:
     name: ${{ matrix.os }} / ${{ matrix.python-version }} ${{ matrix.suffix }}
