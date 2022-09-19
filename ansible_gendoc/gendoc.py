@@ -17,6 +17,10 @@ import os
 import typer
 from giturlparse import parse
 
+import pandas
+
+
+
 class Gendoc:
     def __init__(self, **kwargs):
         """initiate object with provided options."""
@@ -60,6 +64,14 @@ class Gendoc:
         )
         # load literaly role vars/*.yml
         vars_files = load_yml_files(os.path.join(role["path"], "vars"), self.verbose)
+
+        # load arguments_spec.yml
+        if os.path.isfile(os.path.join(role["path"], "meta/argument_specs.yml")):
+            specs_vars = load_yml_file(
+                os.path.join(role["path"], "meta/argument_specs.yml"), self.verbose
+            )['argument_specs']
+        else:
+            specs_vars = None
         # load literaly role defaults/*.yml
         defaults_files = load_yml_files(
             os.path.join(role["path"], "defaults"), self.verbose
@@ -85,16 +97,23 @@ class Gendoc:
         string_role_defaults_files = convert_string(defaults_files)
         # render role
         template = env.get_template("README.j2")
+        if 'namespace' in meta_vars['galaxy_info'] and 'role_name' in meta_vars['galaxy_info']:
+            rolename = ("%s.%s" % (meta_vars['galaxy_info']['namespace'],meta_vars['galaxy_info']['role_name'])).lower()
+        elif 'role_name' in meta_vars['galaxy_info']:
+            rolename = meta_vars['galaxy_info']['role_name'].lower()
+        else :
+            rolename = os.path.basename(role["path"])
         # render method accepts the same arguments as the dict constructor
         t = template.render(
             self.opts,
-            rolename=("%s.%s" % (meta_vars['galaxy_info']['author'],meta_vars['galaxy_info']['role_name'])).lower(),
+            rolename=rolename,
             repoowner=role["repoowner"],
             repourl=role["repourl"],
             reponame=role["reponame"],
             role_meta_vars=meta_vars,
             role_vars_files=convert_dict_of_string(vars_files),
             role_defaults_files=role_defaults_files,
+            role_spec_vars=specs_vars,
             string_role_defaults_files=string_role_defaults_files,
             ansible_galaxy_info=ansible_galaxy_info,
             role_docs_md_files=docs_md_files,
