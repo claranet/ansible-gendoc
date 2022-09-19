@@ -22,7 +22,7 @@ Clone this project and build the image :
 git clone
 export DOCKER_BUILDKIT=1
 docker build . -t ansible-gendoc:0.1.0 -t ansible-gendoc:latest
-docker run --user $(id -u):$(id -g) -it ansible_gendoc:latest help
+docker run --user $(id -u):$(id -g) -it ansible-gendoc:latest help
 ```
 
 ### Install python package
