@@ -22,12 +22,12 @@ Clone this project and build the image :
 git clone
 export DOCKER_BUILDKIT=1
 docker build . -t ansible-gendoc:0.1.0 -t ansible-gendoc:latest
-docker run --user $(id -u):$(id -g) -it ansible_gendoc:latest help
+docker run --user $(id -u):$(id -g) -it ansible-gendoc:latest help
 ```
 
 ### Install python package
 
-Install the latest version `Ansible-gendoc` with `pip` or `pipx`
+Install the latest version `ansible-gendoc` with `pip` or `pipx`
 
 ```bash
 pip install ansible-gendoc
@@ -60,7 +60,7 @@ To build the documentation roles, you can run these commands :
 * with package installed with pip
   `ansible-gendoc render`.
 * with docker images
-  `docker run --user $(id -u):$(id -g) -v <path_role>:/role -it ansible_gendoc:latest render role`.
+  `docker run --user $(id -u):$(id -g) -v <path_role>:/role -it ansible-gendoc:latest render role`.
 
 #### Use your personal template
 
