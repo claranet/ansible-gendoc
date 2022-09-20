@@ -14,11 +14,11 @@
 **Platforms Supported**:
 
 {% if role_meta_vars['galaxy_info']['platforms'] is defined and role_meta_vars['galaxy_info']['platforms']|length() %}
-| Platform | Versions   |
-|----------|------------|
-{% for platform in role_meta_vars['galaxy_info']['platforms'] %}
+| Platform | Versions |
+|----------|----------|
+  {% for platform in role_meta_vars['galaxy_info']['platforms'] %}
 | {{ platform['name'] }} | {{  platform['versions']|join(', ') }} |
-{% endfor %}
+  {% endfor %}
 {% else %}
 None.
 {% endif %}
@@ -30,9 +30,9 @@ Ansible >= {{role_meta_vars['galaxy_info']['min_ansible_version']}}.
 ### Ansible role dependencies
 
 {% if role_meta_vars['dependencies'] is defined and role_meta_vars['dependencies']|length() %}
-{% for dependencie in role_meta_vars['dependencies'] %}
+  {% for dependencie in role_meta_vars['dependencies'] %}
   * {{dependencie}}
-{% endfor %}
+  {% endfor %}
 {% else %}
 None.
 {% endif %}
@@ -44,6 +44,7 @@ None.
 ```shell
 ansible-galaxy install {{rolename}}
 ```
+
 ### Install with git
 
 If you do not want a global installation, clone it into your `roles_path`.
@@ -71,14 +72,14 @@ Basic usage is:
     - role: {{rolename}}
 {% if role_defaults_files |length > 0 and role_defaults_files[0]['content'] is not none %}
       vars:
-{% for string_role_defaults_file in string_role_defaults_files %}
+  {% for string_role_defaults_file in string_role_defaults_files %}
         {{ string_role_defaults_file['content'] | replace ('\n', '\n        ') }}
-{% endfor %}
+  {% endfor %}
 {% endif %}
 ```
 
 {# role vars #}
-{% if role_vars_files is not none or role_defaults_files is not none %}
+{% if role_vars_files is not none or role_defaults_files is not none or role_spec_vars is not none %}
 ## ⚙️ Role Variables
 
 Variables are divided in three types.
@@ -91,59 +92,74 @@ role manageability.
 The **context variables** are shown in section below hint you
 on how runtime context may affects role execution.
 
-{% if role_defaults_files is not none %}
+  {% if role_defaults_files is not none or role_spec_vars is not none %}
 ### Default variables
+    {% if role_spec_vars is not none %}
+      {% for name,specs in role_spec_vars.items() %}
 
-{% for role_defaults_file in role_defaults_files %}
+#### {{ name }}
+
+      {% if 'short_description' in specs %}
+{{ specs['short_description'] }}
+      {% elif 'description' in specs %}
+{{ specs['description'] }}
+      {% endif %}
+
+| Variable Name | Required | Type | Default | Elements | Description |
+|---------------|----------|------|---------|----------|-------------|
+        {% for name,option in specs['options'].items() %}
+| {{ name }} | {{ option['required'] if 'required' in option else False }} | {{ option['type'] }} | {{ option['default']|safe|replace('|',' \|')|replace('\n','<br>') if 'default' in option }} | {{ option['elements'] if 'elements' in option }} | {{ option['description'] if 'description' in option }} |
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% for role_defaults_file in role_defaults_files %}
 Role default variables from `defaults/{{role_defaults_file['filename']}}`.
 
-{% if role_defaults_file['content'] != None %}
+        {% if role_defaults_file['content'] != None %}
 | Variable Name | Value |
 |---------------|-------|
-{% for key,value in role_defaults_file['content'].items() %}
+          {% for key,value in role_defaults_file['content'].items() %}
 | {{ key }} | {{ value|safe|replace('|',' \|')|replace('\n','<br>') }} |
-{% endfor %}
-{% endif %}
-{% endfor %}
-{% else %}
-None.
-{% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endif %}
 
 ### Context variables
 
 {% if role_vars_files != [] %}
 Those variables from `vars/*.{yml,json}` are loaded dynamically during task
 runtime using the `include_vars` module.
-{% for role_vars_file in role_vars_files %}
+  {% for role_vars_file in role_vars_files %}
 
 Variables loaded from `vars/{{role_vars_file['filename']}}`.
 
-{% if role_vars_file['content'] != None %}
+    {% if role_vars_file['content'] != None %}
 | Variable Name | Value |
 |---------------|-------|
-{% for key,value in role_vars_file['content'].items() %}
+      {% for key,value in role_vars_file['content'].items() %}
 | {{ key }} | {{ value|safe | replace('|',' \|')|replace('\n','<br>') }} |
-{% endfor %}
-{% endif %}
-{% endfor %}
-{% else %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {% else %}
 None.
-
-{% endif %}
+  {% endif %}
 {% endif %}
 
 {% if role_meta_vars['galaxy_info']['license'] is defined %}
 
 {# usage guide // doc from md files #}
-{% if role_docs_md_files is not none %}
-{% for role_docs_md_file in role_docs_md_files %}
-{% if 'README' not in role_docs_md_file['filename'] %}
+  {% if role_docs_md_files is not none %}
+    {% for role_docs_md_file in role_docs_md_files %}
+      {% if 'README' not in role_docs_md_file['filename'] %}
 {{role_docs_md_file['content']}}
-{% endif %}
-{% if loop.length > 1 %}
-{% endif %}
-{% endfor %}
-{% endif %}
+      {% endif %}
+      {% if loop.length > 1 %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 
 {% endif %}
 ## Author Information
