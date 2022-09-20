@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ansible-gendoc"
-version = "0.1.8"
+version = "0.1.9"
 description = "Ansible-gendoc build documentation of Ansible Roles."
 authors = ["Stephane ROBERT <stephane.robert@fr.clara.net>"]
 readme = "README.md"
@@ -30,9 +30,7 @@ black = "^22.6.0"
 
 [tool.poetry.group.dev.dependencies]
 ansible-lint = "^6.5.2"
-djlint = "^1.16.0"
-pandas = "^1.4.4"
-tabulate = "^0.8.10"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
