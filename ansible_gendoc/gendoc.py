@@ -17,9 +17,6 @@ import os
 import typer
 from giturlparse import parse
 
-import pandas
-
-
 
 class Gendoc:
     def __init__(self, **kwargs):
