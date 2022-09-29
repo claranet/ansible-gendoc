@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ansible-gendoc"
-version = "0.1.10"
+version = "0.1.11"
 description = "Ansible-gendoc build documentation of Ansible Roles."
 authors = ["Stephane ROBERT <stephane.robert@fr.clara.net>"]
 readme = "README.md"
