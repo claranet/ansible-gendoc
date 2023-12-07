@@ -60,7 +60,7 @@ To build the documentation roles, you can run these commands :
 * with package installed with pip
   `ansible-gendoc render`.
 * with docker images
-  `docker run --user $(id -u):$(id -g) -v <path_role>:/role -it ansible-gendoc:latest render role`.
+  `docker run --user $(id -u):$(id -g) -v <path_role>:/role -it ansible-gendoc:latest render`.
 
 #### Use your personal template
 
@@ -68,8 +68,12 @@ To use a personal template, you need to `init` the template in the templates
 folder of your role. If `ansible-gendoc` find an existing file
 `templates/README.j2`, it will use it to render the README.md file.
 
+* with package installed with pip
+  `ansible-gendoc init`.
+* with docker images
+  `docker run --user $(id -u):$(id -g) -v <path_role>:/role -it ansible-gendoc:latest init`.
+
 ```bash
-ansible-gendoc init
 ls templates
 README.j2
 ```
