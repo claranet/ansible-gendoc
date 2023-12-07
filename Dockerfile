@@ -2,7 +2,7 @@
 FROM alpine:3.16 as builder
 ENV PYROOT=/venv
 ENV PYTHONUSERBASE=$PYROOT
-WORKDIR /
+# WORKDIR /
 RUN <<EOF
   apk update
   apk add --no-cache bc cargo gcc libffi-dev musl-dev openssl-dev rust python3-dev py3-pip
@@ -29,6 +29,7 @@ RUN <<EOF
     apk del build-deps
 EOF
 
+WORKDIR /role
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["--version"]
